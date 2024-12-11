@@ -5,8 +5,8 @@ The python script provided by this project realizes the function of observing th
 - [x] matplot绘制模式 (Matplotlib plotting mode)
 
 # 运行画面 / Running Screenshots
-<img src="[img/terminal_mode.png](https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/matplot_mode.png)" title="terminal_mode"/>
-<img src="[img/matplot_mode.png](https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/terminal_mode.png)" title="matplot_mode"/>
+<img src="https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/terminal_mode.png" title="terminal_mode"/>
+<img src="https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/matplot_mode.png" title="matplot_mode"/>
 
 
 # 使用方法 / Usage
@@ -43,6 +43,6 @@ python3 watchload.py -m t
 # 异常情况 / Exception
 1. 终端窗口太小，无法绘制图形 (The terminal window is too small to draw the graph):
    请适当拉伸窗口 (Please stretch the window appropriately)
-<img src="[img/sizeerror.png](https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/sizeerror.png)" title="sizeerror"/>
+<img src="https://github.com/Tang-JingWei/watchload-for-rk3588/blob/master/imgs/sizeerror.png" title="sizeerror"/>
 
 
