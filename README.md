@@ -5,6 +5,9 @@ The python script provided by this project realizes the function of observing th
 - [x] matplot绘制模式 (Matplotlib plotting mode)
 
 # 运行画面 / Running Screenshots
+<img src="img/terminal_mode.png" title="terminal_mode"/>
+<img src="img/matplot_mode.png" title="matplot_mode"/>
+
 
 # 使用方法 / Usage
 1. 克隆项目 (Clone the project)
@@ -40,6 +43,6 @@ python3 watchload.py -m t
 # 异常情况 / Exception
 1. 终端窗口太小，无法绘制图形 (The terminal window is too small to draw the graph):
    请适当拉伸窗口 (Please stretch the window appropriately)
-
+<img src="img/sizeerror.png" title="sizeerror"/>
 
 
