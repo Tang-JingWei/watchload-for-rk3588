@@ -1,0 +1,7 @@
+subprocess
+matplotlib
+re
+psutil
+argparse
+curses
+time
