@@ -15,6 +15,6 @@ case "$1" in
     python3 $SCRIPT_PATH/watchload.py -m g
     ;;
   *)
-    echo "unknown arg£º$1, you can use -t or -g"
+    echo "unknown arg: $1, you can use -t or -g"
     ;;
 esac
