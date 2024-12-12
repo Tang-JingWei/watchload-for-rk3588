@@ -3,11 +3,9 @@
 SCRIPT_PATH=$(dirname "$0")
 
 if [ -z "$1" ]; then
-  echo "usage: [-t|-g]"
-  exit 1
-fi
-
-case "$1" in
+  python3 $SCRIPT_PATH/watchload.py -m t
+else
+  case "$1" in
   "-t")
     python3 $SCRIPT_PATH/watchload.py -m t
     ;;
@@ -17,4 +15,7 @@ case "$1" in
   *)
     echo "unknown arg: $1, you can use -t or -g"
     ;;
-esac
+  esac
+fi
+
+

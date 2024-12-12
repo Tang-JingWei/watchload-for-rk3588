@@ -51,7 +51,8 @@ source ~/.bashrc
 sudo chmod +x watchload
 ```
 ```
-# 运行 watchload 脚本，同样的，需要指定参数 -t 或者 -g (The same as the python script, you need to specify the parameter -t or -g)
+# 运行 watchload 脚本，同样的，需要指定参数 -t 或者 -g，默认是 -t (The same as the python script, you need to specify the parameter -t or -g, the default is -t)
+watchload
 watchload -t
 watchload -g
 ```
@@ -64,6 +65,8 @@ watchload -g
    2. 优化代码结构 (Optimize code structure)
 3. v1.2:
    1. 增加 watchload 脚本，方便在任意目录处都可以调出监视器 (Add watchload script, which can be called up in any directory)
+4. v1.3:
+   1. 更改运行逻辑：watchload 运行没有指定参数时默认调用 -t，方便调用 (The running logic is changed: watchload runs without specifying parameters by default and calls -t, which is convenient to call)
 
 # 异常情况 / Exception
 1. 终端窗口太小，无法绘制图形 (The terminal window is too small to draw the graph):
