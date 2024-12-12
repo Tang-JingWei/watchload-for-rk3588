@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import subprocess
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -14,7 +16,7 @@ logo = [
  "||       |  \/  | ___  _ __ (_) |_ ___  _ __             ||",
  "||       | |\/| |/ _ \| '_ \| | __/ _ \| '__|            ||",
  "||       | |  | | (_) | | | | | || (_) | |               ||",
- "||       |_|  |_|\___/|_| |_|_|\__\___/|_|    V1.1       ||",
+ "||       |_|  |_|\___/|_| |_|_|\__\___/|_|    V1.2       ||",
  "||                                                       ||",
  "||        Author: https://github.com/Tang-JingWei        ||",
  "||                                                       ||",

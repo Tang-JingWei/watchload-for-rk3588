@@ -39,6 +39,22 @@ python3 watchload.py -m g
 # 使用终端显示模式运行 (Use terminal display mode to run)
 python3 watchload.py -m t
 ```
+5. 当然，这样运行python脚本并不是一种很方便的方法，所以在 V1.2版本 中加入了 ```watchload``` 脚本，你只需要做一些简单的设置就可以在任意目录下使用该监测功能 (In V1.2 version, the ```watchload``` script is added, and you only need to make a few simple settings to run the monitoring function in any directory)
+```
+# 首先，编辑 ~/.bashrc 文件，在文件末尾添加 watchload-for-rk3588 项目目录路径。 (First, edit the ~/.bashrc file and add the path of the watchload-for-rk3588 project directory to the end of the file.)
+sudo nano ~/.bashrc
+export PATH="/path/to/the/watchload-for-rk3588:$PATH"
+source ~/.bashrc
+```
+```
+# 给脚本赋予可执行权限 (Give the script executable permissions)
+sudo chmod +x watchload
+```
+```
+# 运行 watchload 脚本，同样的，需要指定参数 -t 或者 -g (The same as the python script, you need to specify the parameter -t or -g)
+watchload -t
+watchload -g
+```
 
 # 更新历史
 1. v1.0: 
@@ -46,7 +62,8 @@ python3 watchload.py -m t
 2. v1.1: 
    1. 增加显示 RKNPU driver 版本信息 (Add display of RKNPU driver version information)
    2. 优化代码结构 (Optimize code structure)
-   
+3. v1.2:
+   1. 增加 watchload 脚本，方便在任意目录处都可以调出监视器 (Add watchload script, which can be called up in any directory)
 
 # 异常情况 / Exception
 1. 终端窗口太小，无法绘制图形 (The terminal window is too small to draw the graph):

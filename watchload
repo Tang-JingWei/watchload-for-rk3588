@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SCRIPT_PATH=$(dirname "$0")
+
+if [ -z "$1" ]; then
+  echo "usage: [-t|-g]"
+  exit 1
+fi
+
+case "$1" in
+  "-t")
+    python3 $SCRIPT_PATH/watchload.py -m t
+    ;;
+  "-g")
+    python3 $SCRIPT_PATH/watchload.py -m g
+    ;;
+  *)
+    echo "unknown arg£º$1, you can use -t or -g"
+    ;;
+esac
