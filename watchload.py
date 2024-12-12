@@ -14,7 +14,7 @@ logo = [
  "||       |  \/  | ___  _ __ (_) |_ ___  _ __             ||",
  "||       | |\/| |/ _ \| '_ \| | __/ _ \| '__|            ||",
  "||       | |  | | (_) | | | | | || (_) | |               ||",
- "||       |_|  |_|\___/|_| |_|_|\__\___/|_|    V1.0       ||",
+ "||       |_|  |_|\___/|_| |_|_|\__\___/|_|    V1.1       ||",
  "||                                                       ||",
  "||        Author: https://github.com/Tang-JingWei        ||",
  "||                                                       ||",
@@ -47,6 +47,19 @@ def get_cpu_load():
     # 获取每个核心的 CPU 使用率
     cpu_percent = psutil.cpu_percent(percpu=True)
     return cpu_percent
+
+def get_npudriver_version():
+    npuversion_str = subprocess.run(['sudo', 'cat', '/sys/kernel/debug/rknpu/version'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    # return npuversion.stdout.decode('utf-8')
+
+    # 使用正则表达式匹配版本号
+    version_match = re.search(r'RKNPU driver: v(\d+\.\d+\.\d+)', npuversion_str)
+    if version_match:
+        version = version_match.group(1)
+        return version
+        
+    else:
+        return "Version not found"
 
 # 更新函数，用于实时更新图表
 def matplotShow(frame):
@@ -87,7 +100,7 @@ def draw_logo(stdscr):
 def terminalShow(stdscr):
     curses.curs_set(0)  # 不显示光标
     stdscr.nodelay(1)   # 不等待输入
-    stdscr.timeout(500)  # 每秒更新一次
+    stdscr.timeout(500)  # 更新间隔时间
 
     # 初始化颜色
     curses.start_color()
@@ -101,6 +114,7 @@ def terminalShow(stdscr):
         # 获取 NPU 和 CPU 负载数据
         npu_load = get_npu_load()
         cpu_load = get_cpu_load()
+        npu_driver_version = get_npudriver_version()
 
         # 清空屏幕
         stdscr.clear()
@@ -118,26 +132,33 @@ def terminalShow(stdscr):
 
             continue
 
-        # 绘制 NPU 负载
-        stdscr.addstr(len(logo)+0, 2, "|---------------------------------------------------------|")
-        stdscr.addstr(len(logo)+1, 2, "| NPU Load per Core:                                      |")
-        stdscr.addstr(len(logo)+2, 2, "|---------------------------------------------------------|")
-        for i, load in enumerate(npu_load):
-            draw_bar(stdscr, len(logo)+3 + i, 2, load, f"| NPU{i}")
-
-        # 绘制 CPU 负载
-        stdscr.addstr(len(logo)+6, 2, "|---------------------------------------------------------|")
-        stdscr.addstr(len(logo)+7, 2, "| CPU Load per Core:                                      |")
-        stdscr.addstr(len(logo)+8, 2, "|---------------------------------------------------------|")
-        for i, load in enumerate(cpu_load[:8]):  # 只显示前 8 个核心
-            draw_bar(stdscr, len(logo)+9 + i, 2, load, f"| CPU{i+1}")
-        stdscr.addstr(len(logo)+17, 2, "-----------------------------------------------------------")
-
-        # 绘制用法
-        stdscr.addstr(len(logo)+18, 22, "press 'q' to exit", curses.color_pair(3))
-
         # 绘制 logo
         draw_logo(stdscr)
+
+        # 绘制 NPU 驱动版本
+        npu_driver_version = "RKNPU driver: v" + npu_driver_version
+        npu_driver_str = npu_driver_version.center(57)
+        stdscr.addstr(len(logo)+0, 2, "|" + npu_driver_str + "|")
+        
+        offset = 1
+
+        # 绘制 NPU 负载
+        stdscr.addstr(len(logo)+offset+0, 2, "|---------------------------------------------------------|")
+        stdscr.addstr(len(logo)+offset+1, 2, "| NPU Load per Core:                                      |")
+        stdscr.addstr(len(logo)+offset+2, 2, "|---------------------------------------------------------|")
+        for i, load in enumerate(npu_load):
+            draw_bar(stdscr, len(logo)+offset+3 + i, 2, load, f"| NPU{i}")
+
+        # 绘制 CPU 负载
+        stdscr.addstr(len(logo)+offset+6, 2, "|---------------------------------------------------------|")
+        stdscr.addstr(len(logo)+offset+7, 2, "| CPU Load per Core:                                      |")
+        stdscr.addstr(len(logo)+offset+8, 2, "|---------------------------------------------------------|")
+        for i, load in enumerate(cpu_load[:8]):  # 只显示前 8 个核心
+            draw_bar(stdscr, len(logo)+offset+9 + i, 2, load, f"| CPU{i+1}")
+        stdscr.addstr(len(logo)+offset+17, 2, "-----------------------------------------------------------")
+
+        # 绘制用法
+        stdscr.addstr(len(logo)+offset+18, 22, "press 'q' to exit", curses.color_pair(3))
 
         # 刷新屏幕
         stdscr.refresh()
@@ -161,12 +182,14 @@ if __name__ == "__main__":
         # 初始化图形
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
 
+        npu_driver_version = get_npudriver_version()
+
         # 设置 NPU 负载图
         ax1.set_ylim(0, 100)
         ax1.set_xlim(-0.5, 2.5)
         ax1.set_xticks([0, 1, 2])
         ax1.set_xticklabels(['Core0', 'Core1', 'Core2'])
-        ax1.set_title('NPU Load per Core')
+        ax1.set_title("(RKNPU driver: v" + npu_driver_version + ') NPU Load per Core')
         bar_npu = ax1.bar([0, 1, 2], [0, 0, 0], width=0.6)
 
         # 设置 CPU 负载图，8 个 CPU 核心

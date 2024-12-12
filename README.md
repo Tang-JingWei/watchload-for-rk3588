@@ -40,6 +40,14 @@ python3 watchload.py -m g
 python3 watchload.py -m t
 ```
 
+# 更新历史
+1. v1.0: 
+   1. 初始版本 (Initial version)
+2. v1.1: 
+   1. 增加显示 RKNPU driver 版本信息 (Add display of RKNPU driver version information)
+   2. 优化代码结构 (Optimize code structure)
+   
+
 # 异常情况 / Exception
 1. 终端窗口太小，无法绘制图形 (The terminal window is too small to draw the graph):
    请适当拉伸窗口 (Please stretch the window appropriately)
