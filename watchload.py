@@ -29,17 +29,20 @@ logo = [
 def get_npu_load():
     try:
         # 执行命令获取输出字符串
-        result = subprocess.run(['sudo', 'cat', '/sys/kernel/debug/rknpu/load'], stdout=subprocess.PIPE)
-        # 如果命令执行失败，返回0
+        result = subprocess.run(['sudo', 'cat', '/sys/kernel/debug/rknpu/load'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
         if result.returncode != 0:
-            print(f"Error reading NPU load: {result.stderr}")
+            print(f"Error reading NPU load: {result.stderr.decode()}")
             return [0, 0, 0]
 
-        output = result.stdout.strip()
+        output = result.stdout.decode().strip()
         
+        # 正则匹配 Core0、Core1、Core2 的百分比
         core_loads = re.findall(r'Core\d+: *(\d+)%', output)
         if core_loads:
             loads = list(map(int, core_loads))
+        else:
+            # 正则匹配 NPU Load 的百分比
             single_load = re.search(r'NPU load: *(\d+)%', output)
             if single_load:
                 loads = [int(single_load.group(1))]
