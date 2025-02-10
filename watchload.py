@@ -49,11 +49,8 @@ def get_npu_load():
             else:
                 print(f"Unrecognized load format: {output}")
                 return [0, 0, 0]
-        
-        while len(loads) < 3:
-            loads.append(0)
             
-        return loads[:3]
+        return loads
 
     except Exception as e:
         print(f"Error parsing load data: {e}")
