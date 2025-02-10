@@ -27,23 +27,34 @@ logo = [
 
 # 获取 NPU 负载的函数
 def get_npu_load():
-    # 执行命令获取输出字符串
-    result = subprocess.run(['sudo', 'cat', '/sys/kernel/debug/rknpu/load'], stdout=subprocess.PIPE)
-    output = result.stdout.decode('utf-8').strip()
-
-    # 使用正则表达式提取负载数据
     try:
-        # 正则匹配 Core0、Core1、Core2 的百分比
-        load_data = re.findall(r'Core\d+: *(\d+)%', output)
-        if len(load_data) == 3:
-            # 返回三个核心的负载
-            return list(map(int, load_data))
-        else:
-            print("Error: Could not parse all core loads")
-            return 0, 0, 0
+        # 执行命令获取输出字符串
+        result = subprocess.run(['sudo', 'cat', '/sys/kernel/debug/rknpu/load'], stdout=subprocess.PIPE)
+        # 如果命令执行失败，返回0
+        if result.returncode != 0:
+            print(f"Error reading NPU load: {result.stderr}")
+            return [0, 0, 0]
+
+        output = result.stdout.strip()
+        
+        core_loads = re.findall(r'Core\d+: *(\d+)%', output)
+        if core_loads:
+            loads = list(map(int, core_loads))
+            single_load = re.search(r'NPU load: *(\d+)%', output)
+            if single_load:
+                loads = [int(single_load.group(1))]
+            else:
+                print(f"Unrecognized load format: {output}")
+                return [0, 0, 0]
+        
+        while len(loads) < 3:
+            loads.append(0)
+            
+        return loads[:3]
+
     except Exception as e:
-        print("Error parsing load data:", e)
-        return 0, 0, 0
+        print(f"Error parsing load data: {e}")
+        return [0, 0, 0]
 
 # 获取 CPU 负载的函数
 def get_cpu_load():
